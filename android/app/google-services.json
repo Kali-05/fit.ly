@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1044830642154",
+    "project_id": "fit-ly",
+    "storage_bucket": "fit-ly.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044830642154:android:35cae0e48c950dd04d1c93",
+        "android_client_info": {
+          "package_name": "com.fit.ly"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOtXpjJfVJ_HSbnZzJ7FxyReN7f36pGIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
