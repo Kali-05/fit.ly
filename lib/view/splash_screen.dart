@@ -1,29 +1,55 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:workout_fitness/view/login_page/login_page.dart';
+import 'package:workout_fitness/view/authenticate/authenticate.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+import 'package:workout_fitness/view/menu/menu_view.dart';
+
+class SplashScreen extends StatefulWidget {
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    navigateToNextScreen();
+  }
+
+  void navigateToNextScreen() async {
+    // Simulate a delay for splash screen
+    await Future.delayed(Duration(seconds: 2));
+
+    // Retrieve the user from the Provider
+    //final user = Provider.of<User?>(context, listen: false);
+    User? user = FirebaseAuth.instance.currentUser;
+
+    // Navigate based on user authentication
+
+    if (user == null) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => authenticate()));
+    } else {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => MenuView()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 2500), () {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) {
-        return LoginScreen();
-      }));
-    });
-
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-          child: Text(
-        'Fitness Tracker',
-        style: TextStyle(
+        child: Text(
+          'Fitness Tracker',
+          style: TextStyle(
             fontSize: 50,
             fontWeight: FontWeight.w700,
-            color: Color.fromARGB(255, 248, 248, 248)),
-      )),
+            color: Color.fromARGB(255, 248, 248, 248),
+          ),
+        ),
+      ),
     );
   }
 }

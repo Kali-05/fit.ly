@@ -3,9 +3,13 @@
         android:label="workout_fitness"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- android:usesCleartextTraffic="true" -->
+        
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:usesCleartextTraffic="true"
+            android:enableOnBackInvokedCallback="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

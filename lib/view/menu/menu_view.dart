@@ -1,8 +1,11 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:workout_fitness/services/auth.dart';
 import 'package:workout_fitness/view/home/home_view.dart';
+import 'package:workout_fitness/view/login_page/login_page.dart';
 import 'package:workout_fitness/view/meal_plan/meal_plan_view.dart';
 import 'package:workout_fitness/view/menu/yoga_view.dart';
 import 'package:workout_fitness/view/settings/setting_view.dart';
@@ -26,6 +29,8 @@ class MenuView extends StatefulWidget {
 }
 
 class _MenuViewState extends State<MenuView> {
+  final AuthService _auth = AuthService();
+
   List planArr = [
     {
       "name": "Running",
@@ -92,6 +97,23 @@ class _MenuViewState extends State<MenuView> {
   Widget build(BuildContext context) {
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white38,
+        elevation: 0.0,
+        actions: <Widget>[
+          TextButton.icon(
+              onPressed: () async {
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (context) {
+                  return LoginScreen();
+                }));
+                await _auth.signOut();
+                print(_auth.user);
+              },
+              icon: Icon(Icons.person),
+              label: Text('SignOut'))
+        ],
+      ),
       drawer: Drawer(
           width: media.width,
           backgroundColor: Colors.transparent,
@@ -320,7 +342,7 @@ class _MenuViewState extends State<MenuView> {
                             builder: (context) => const HomeView()));
                     break;
                   case "2":
-                     Navigator.push(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const WeightView()));
@@ -328,8 +350,8 @@ class _MenuViewState extends State<MenuView> {
                   case "3":
                     Scaffold.of(context).openDrawer();
                     break;
-                   case "5":
-                     Navigator.push(
+                  case "5":
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const MealPlanView2()));
@@ -340,25 +362,25 @@ class _MenuViewState extends State<MenuView> {
                         MaterialPageRoute(
                             builder: (context) => const ScheduleView()));
                     break;
-                    case "7":
+                  case "7":
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const RunningView()));
                     break;
-                   case "8":
+                  case "8":
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const ExerciseView2()));
                     break;
-                   case "9":
-                  Navigator.push(
+                  case "9":
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const TipsView()));
                     break;
-                    case "10":
+                  case "10":
                     Navigator.push(
                         context,
                         MaterialPageRoute(

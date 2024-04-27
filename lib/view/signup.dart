@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workout_fitness/services/auth.dart';
+import 'package:workout_fitness/view/login/on_boarding_view.dart';
 // import 'package:workout_fitness/view/login/login_screen.dart';
 import 'package:workout_fitness/view/login_page/login_page.dart';
+import 'package:workout_fitness/view/menu/menu_view.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  final Function? toggleView;
+  //SignupScreen({this.toggleView});
+  const SignupScreen({this.toggleView});
 
   @override
   _SignupScreenState createState() => _SignupScreenState();
@@ -18,6 +22,9 @@ class _SignupScreenState extends State<SignupScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String email = '';
+  String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +73,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                       ),
                                       hintText: 'Username',
                                     ),
+                                    onChanged: (value) {
+                                      setState(() => email = value);
+                                    },
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter a username';
@@ -93,6 +103,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                       ),
                                       hintText: 'Password',
                                     ),
+                                    onChanged: (value) {
+                                      setState(() => password = value);
+                                    },
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter a password';
@@ -144,14 +157,16 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  //if (_formKey.currentState!.validate()) {}
-                                  //_signup(context);
-                                  dynamic result = _auth.signinAnon();
-                                  if (result == null) {
-                                    print("error signin in");
-                                  } else {
-                                    print('signed in');
-                                    print(result);
+                                  if (_formKey.currentState!.validate()) {
+                                    _signup(context);
+
+                                    dynamic result =
+                                        await _auth.RegisterWithEmail(
+                                            email, password);
+                                    if (result == null) {
+                                      setState(() => error =
+                                          'please supply a valid email');
+                                    }
                                   }
                                 },
                                 child: const Text(
@@ -168,14 +183,21 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
+                      Text(
+                        error,
+                        style: TextStyle(color: Colors.red, fontSize: 14.0),
+                      ),
+                      const SizedBox(height: 12),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LoginScreen(),
-                            ),
-                          );
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => LoginScreen(),
+                          //   ),
+                          // );
+
+                          widget.toggleView!();
                         },
                         child: const Text(
                           'Already have an account? Login',
@@ -210,11 +232,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
     //moving to loginpage after signup
 
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => LoginScreen(),
-    //   ),
-    // );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MenuView(),
+      ),
+    );
   }
 }
