@@ -11,6 +11,7 @@ import 'package:workout_fitness/view/menu/menu_view.dart';
 import 'package:workout_fitness/view/signup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:workout_fitness/view/splash_screen.dart';
+import 'package:workout_fitness/wrapper/wrapper.dart';
 
 import 'common/color_extension.dart';
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: false,
         ),
         //home: SplashScreen(),
-        home: SplashScreen(),
+        home: Wrapper(),
       ),
     );
   }

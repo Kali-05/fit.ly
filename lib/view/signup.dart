@@ -158,7 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    _signup(context);
+                                    //_signup(context);
 
                                     dynamic result =
                                         await _auth.RegisterWithEmail(
@@ -167,6 +167,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                       setState(() => error =
                                           'please supply a valid email');
                                     }
+                                    //else {
+                                    //   Navigator.pushReplacement(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) => LoginScreen(),
+                                    //     ),
+                                    //   );
+                                    // }
                                   }
                                 },
                                 child: const Text(

@@ -17,9 +17,7 @@ class AuthService {
   // auth changes user stream
 
   Stream<Userr?> get user {
-    return _auth
-        .authStateChanges()
-        .map((User? user) => _userfromfirebaseUser(user));
+    return _auth.authStateChanges().map(_userfromfirebaseUser);
   }
 
   //sign in anonimous

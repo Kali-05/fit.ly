@@ -35,7 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
   String error = '';
   String email = '';
   String password = '';
+  String UserCheck = '';
   User? user = FirebaseAuth.instance.currentUser;
+
+  // SignIn() async {
+  //   await FirebaseAuth.instance
+  //       .signInWithEmailAndPassword(email: email, password: password);
+  // }
+
   @override
   Widget build(BuildContext context) {
     //if (user == null) {
@@ -154,19 +161,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                         onPressed: () async {
                                           if (_formkey.currentState!
                                               .validate()) {
+                                            //SignIn();
                                             //checkLogin(context);
 
                                             dynamic result =
                                                 await _auth.LoginWithEmail(
                                                     email, password);
 
+                                            //UserCheck = user!.uid;
                                             // print('User ID: ${user?.uid}');
 
-                                            if (user != null) {
-                                              print('User ID: ${user?.uid}');
-                                            } else {
-                                              print('User is not logged in');
-                                            }
+                                            // if (UserCheck == null) {
+                                            //   print('User ID: ${user?.uid}');
+                                            //   Navigator.of(context)
+                                            //       .pushReplacement(
+                                            //           MaterialPageRoute(
+                                            //               builder: (ctx1) =>
+                                            //                   OnBoardingView()));
+                                            // } else {
+                                            //   print('User is not logged in');
+                                            // }
 
                                             if (result == null) {
                                               setState(() => error =

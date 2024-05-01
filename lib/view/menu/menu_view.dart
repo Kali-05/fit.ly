@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,15 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:workout_fitness/services/auth.dart';
 import 'package:workout_fitness/view/home/home_view.dart';
 import 'package:workout_fitness/view/login_page/login_page.dart';
-import 'package:workout_fitness/view/meal_plan/meal_plan_view.dart';
+
 import 'package:workout_fitness/view/menu/yoga_view.dart';
 import 'package:workout_fitness/view/settings/setting_view.dart';
+import 'package:workout_fitness/workoutpage/workoutPage.dart';
 
 import '../../common/color_extension.dart';
 import '../../common_widget/menu_cell.dart';
 import '../../common_widget/plan_row.dart';
-import '../exercise/exercise_view.dart';
-import '../exercise/exercise_view_2.dart';
+
 import '../meal_plan/meal_plan_view_2.dart';
 import '../running/running_view.dart';
 import '../schedule/schedule_view.dart';
@@ -83,7 +84,6 @@ class _MenuViewState extends State<MenuView> {
     {"name": "Exercises", "image": "assets/img/menu_exercises.png", "tag": "8"},
     {"name": "Tips", "image": "assets/img/menu_tips.png", "tag": "9"},
     {"name": "Settings", "image": "assets/img/menu_settings.png", "tag": "10"},
-    {"name": "Support", "image": "assets/img/menu_support.png", "tag": "11"},
   ];
 
   @override
@@ -91,6 +91,13 @@ class _MenuViewState extends State<MenuView> {
     // TODO: implement initState
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+  }
+
+  final usser = FirebaseAuth.instance.currentUser;
+
+  SignOut() async {
+    await FirebaseAuth.instance.signOut();
+    print('signout');
   }
 
   @override
@@ -103,12 +110,11 @@ class _MenuViewState extends State<MenuView> {
         actions: <Widget>[
           TextButton.icon(
               onPressed: () async {
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
-                }));
+                // Navigator.of(context)
+                //     .pushReplacement(MaterialPageRoute(builder: (context) {
+                //   return LoginScreen();
+                // }));
                 await _auth.signOut();
-                print(_auth.user);
               },
               icon: Icon(Icons.person),
               label: Text('SignOut'))
@@ -309,6 +315,11 @@ class _MenuViewState extends State<MenuView> {
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: TColor.white,
+                                      fontWeight: FontWeight.w500)),
+                              Text("${usser!.email}",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: TColor.white,
                                       fontWeight: FontWeight.w500))
                             ],
                           ),
@@ -372,7 +383,7 @@ class _MenuViewState extends State<MenuView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ExerciseView2()));
+                            builder: (context) => const MyWorkoutPage()));
                     break;
                   case "9":
                     Navigator.push(
