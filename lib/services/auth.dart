@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_fitness/models/user.dart';
+import 'package:workout_fitness/services/database.dart';
 import 'package:workout_fitness/view/login_page/login_page.dart';
 
 class AuthService {
@@ -26,7 +27,7 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInAnonymously();
       final User user = result.user!;
-
+      await DataBaseService(uid: user.uid);
       return _userfromfirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -41,6 +42,7 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: Password);
       User? emailUser = result.user;
+
       return _userfromfirebaseUser(emailUser);
     } catch (e) {
       print(e.toString());

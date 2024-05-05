@@ -6,8 +6,8 @@ import '../../common_widget/fitness_level_selector.dart';
 import '../../common_widget/round_button.dart';
 
 class Step2View extends StatefulWidget {
-  const Step2View({super.key});
-
+  const Step2View({super.key, required this.userId});
+  final String userId;
   @override
   State<Step2View> createState() => _Step2ViewState();
 }
@@ -73,7 +73,6 @@ class _Step2ViewState extends State<Step2View> {
                   });
                 },
               ),
-
               FitnessLevelSelector(
                 title: "Advanced",
                 subtitle: "You're fit and ready for an intensive workout plan",
@@ -84,8 +83,6 @@ class _Step2ViewState extends State<Step2View> {
                   });
                 },
               ),
-              
-              
               const Spacer(),
               Padding(
                 padding:
@@ -93,7 +90,12 @@ class _Step2ViewState extends State<Step2View> {
                 child: RoundButton(
                   title: "Next",
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Step3View() ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Step3View(
+                                  userId: widget.userId,
+                                )));
                   },
                 ),
               ),

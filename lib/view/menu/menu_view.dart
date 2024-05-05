@@ -1,12 +1,13 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+
 import 'package:workout_fitness/services/auth.dart';
 import 'package:workout_fitness/view/home/home_view.dart';
-import 'package:workout_fitness/view/login_page/login_page.dart';
 
 import 'package:workout_fitness/view/menu/yoga_view.dart';
 import 'package:workout_fitness/view/settings/setting_view.dart';
@@ -23,7 +24,8 @@ import '../tips/tips_view.dart';
 import '../weight/weight_view.dart';
 
 class MenuView extends StatefulWidget {
-  const MenuView({super.key});
+  final String userId;
+  MenuView({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<MenuView> createState() => _MenuViewState();
@@ -31,6 +33,8 @@ class MenuView extends StatefulWidget {
 
 class _MenuViewState extends State<MenuView> {
   final AuthService _auth = AuthService();
+
+  List<String> selectedWorkouts = [];
 
   List planArr = [
     {
@@ -102,6 +106,13 @@ class _MenuViewState extends State<MenuView> {
 
   @override
   Widget build(BuildContext context) {
+    String userId = widget.userId;
+    // String? UserId = '';
+    // if (widget.userId == null) {
+    //   UserId = '';
+    // } else {
+    //   UserId = widget.userId;
+    // }
     var media = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
@@ -383,7 +394,9 @@ class _MenuViewState extends State<MenuView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MyWorkoutPage()));
+                            builder: (context) => MyWorkoutPage(
+                                  userId: userId,
+                                )));
                     break;
                   case "9":
                     Navigator.push(

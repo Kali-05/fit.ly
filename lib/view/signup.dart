@@ -166,6 +166,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                     if (result == null) {
                                       setState(() => error =
                                           'please supply a valid email');
+                                    } else {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => OnBoardingView(
+                                              userId: result.uid),
+                                        ),
+                                      );
                                     }
                                     //else {
                                     //   Navigator.pushReplacement(
@@ -225,26 +233,26 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  void _signup(BuildContext context) async {
-    // Implement your signup logic here
-    final newUserName = _usernameController.text;
-    final newPassword = _passwordController.text;
+  // void _signup(BuildContext context) async {
+  //   // Implement your signup logic here
+  //   final newUserName = _usernameController.text;
+  //   final newPassword = _passwordController.text;
 
-    // For demonstration purposes, let's just print the username and password
-    print('Username: $newUserName');
-    print('Password: $newPassword');
+  //   // For demonstration purposes, let's just print the username and password
+  //   print('Username: $newUserName');
+  //   print('Password: $newPassword');
 
-    // You can add further logic here, such as saving the user to a database
+  //   // You can add further logic here, such as saving the user to a database
 
-    // For now, let's navigate back to the login screen
+  //   // For now, let's navigate back to the login screen
 
-    //moving to loginpage after signup
+  //   //moving to loginpage after signup
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MenuView(),
-      ),
-    );
-  }
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => MenuView(),
+  //     ),
+  //   );
+  // }
 }

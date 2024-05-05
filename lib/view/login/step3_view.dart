@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:workout_fitness/services/database.dart';
 
 import '../../common/color_extension.dart';
 import '../../common_widget/round_button.dart';
@@ -8,13 +10,16 @@ import '../../common_widget/select_picker.dart';
 import '../menu/menu_view.dart';
 
 class Step3View extends StatefulWidget {
-  const Step3View({super.key});
-
+  const Step3View({super.key, required this.userId});
+  //StaringService({required this.uid});
+  final String userId;
   @override
   State<Step3View> createState() => _Step3ViewState();
 }
 
 class _Step3ViewState extends State<Step3View> {
+  //StaringService({required this.uid});
+
   bool isAppleHealth = true;
   DateTime? selectDate;
   String? selectHeight;
@@ -179,23 +184,24 @@ class _Step3ViewState extends State<Step3View> {
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700),
                           ),
-                          
                           CupertinoSegmentedControl(
-                              groupValue: isMale,
-                              selectedColor: TColor.primary,
-                              unselectedColor: TColor.white,
-                              borderColor: TColor.primary,
-                              children: const {
-                                true: Text(" Male ",
-                                    style: TextStyle(fontSize: 18)),
-                                false: Text(" Female ",
-                                    style: TextStyle(fontSize: 18))
-                              },
-                              onValueChanged: (isMaleVal) {
-                                setState(() {
-                                  isMale = isMaleVal;
-                                });
-                              }, padding: EdgeInsets.zero, )
+                            groupValue: isMale,
+                            selectedColor: TColor.primary,
+                            unselectedColor: TColor.white,
+                            borderColor: TColor.primary,
+                            children: const {
+                              true: Text(" Male ",
+                                  style: TextStyle(fontSize: 18)),
+                              false: Text(" Female ",
+                                  style: TextStyle(fontSize: 18))
+                            },
+                            onValueChanged: (isMaleVal) {
+                              setState(() {
+                                isMale = isMaleVal;
+                              });
+                            },
+                            padding: EdgeInsets.zero,
+                          )
                         ],
                       ),
                     )
@@ -208,8 +214,16 @@ class _Step3ViewState extends State<Step3View> {
                     const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
                 child: RoundButton(
                   title: "Start",
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MenuView() ) , (route) => false);
+                  onPressed: () async {
+                    await DataBaseService(uid: widget.userId).updateUserData(
+                        selectDate!, selectHeight!, selectWeight!, isMale);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MenuView(
+                                  userId: widget.userId,
+                                )),
+                        (route) => false);
                   },
                 ),
               ),

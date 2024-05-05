@@ -39,8 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => authenticate()));
     } else {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => MenuView()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => MenuView(
+                userId: user.uid,
+              )));
     }
   }
 

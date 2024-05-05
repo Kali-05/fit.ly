@@ -255,9 +255,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             } else {
                               print('signed in');
                               print(result.uid);
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (ctx1) => OnBoardingView()));
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (ctx1) => OnBoardingView(
+                                            userId: result.uid,
+                                          )));
                             }
                           },
                           child: const Text(
@@ -287,24 +289,24 @@ class _LoginScreenState extends State<LoginScreen> {
     // }
   }
 
-  void checkLogin(BuildContext ctx) async {
-    final newUserName = _usernameController.text;
-    final newPassword = _passwordController.text;
-    if (newUserName == newPassword) {
-      //go to home
-      print("match");
+  // void checkLogin(BuildContext ctx) async {
+  //   final newUserName = _usernameController.text;
+  //   final newPassword = _passwordController.text;
+  //   if (newUserName == newPassword) {
+  //     //go to home
+  //     print("match");
 
-      final sharedpref = await SharedPreferences.getInstance();
-      await sharedpref.setBool(SAVE_KEY_NAME, true);
-      Navigator.of(ctx).pushReplacement(
-          MaterialPageRoute(builder: (ctx1) => OnBoardingView()));
-    } else {
-      final _errorMessage = 'Username And Password Doesnt Match';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          behavior: SnackBarBehavior.floating,
-          margin: EdgeInsets.all(10),
-          content: Text(_errorMessage)));
-      //popup
-    }
-  }
+  //     final sharedpref = await SharedPreferences.getInstance();
+  //     await sharedpref.setBool(SAVE_KEY_NAME, true);
+  //     Navigator.of(ctx).pushReplacement(
+  //         MaterialPageRoute(builder: (ctx1) => OnBoardingView()));
+  //   } else {
+  //     final _errorMessage = 'Username And Password Doesnt Match';
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //         behavior: SnackBarBehavior.floating,
+  //         margin: EdgeInsets.all(10),
+  //         content: Text(_errorMessage)));
+  //     //popup
+  //   }
+  // }
 }

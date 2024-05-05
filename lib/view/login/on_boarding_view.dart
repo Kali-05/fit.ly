@@ -3,9 +3,11 @@ import 'package:workout_fitness/view/login/step1_view.dart';
 
 import '../../common/color_extension.dart';
 import '../../common_widget/round_button.dart';
+import 'package:workout_fitness/view/signup.dart';
 
 class OnBoardingView extends StatefulWidget {
-  const OnBoardingView({super.key});
+  final String userId;
+  const OnBoardingView({super.key, required this.userId});
 
   @override
   State<OnBoardingView> createState() => _OnBoardingViewState();
@@ -76,72 +78,66 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                           fontSize: 24,
                           fontWeight: FontWeight.w700),
                     ),
-
-                   SizedBox(height: media.width * 0.25, ),
+                    SizedBox(
+                      height: media.width * 0.25,
+                    ),
                     Image.asset(
                       pObj["image"].toString(),
                       width: media.width * 0.8,
                       height: media.width * 0.8,
                       fit: BoxFit.contain,
                     ),
-
                     SizedBox(
                       height: media.width * 0.3,
                     ),
-
-                     Text(
+                    Text(
                       pObj["subtitle"].toString(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: TColor.white,
-                          fontSize: 14),
+                      style: TextStyle(color: TColor.white, fontSize: 14),
                     ),
                   ],
                 );
               }),
-        )
-
-        , 
+        ),
         SafeArea(
           child: Column(
-            
             children: [
               const Spacer(),
-
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: pageArr.map((pObj) {
-                    var index = pageArr.indexOf(pObj);
+                  var index = pageArr.indexOf(pObj);
                   return Container(
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     width: 12,
                     height: 12,
                     decoration: BoxDecoration(
-                      color:  selectPage == index ? TColor.white : TColor.white.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(6)
-                    ),
+                        color: selectPage == index
+                            ? TColor.white
+                            : TColor.white.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(6)),
                   );
-
-                } ).toList() ,
+                }).toList(),
               ),
-
-              
-
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
-                child: RoundButton(title: "Start", type: RoundButtonType.primaryText, onPressed: (){
-
-
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Step1View()), (route) => false);
-              
-                },),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                child: RoundButton(
+                  title: "Start",
+                  type: RoundButtonType.primaryText,
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Step1View(userId: widget.userId)),
+                        (route) => false);
+                  },
+                ),
               ),
-
-              
-          ],),
+            ],
+          ),
         )
-        
       ]),
     );
   }

@@ -218,7 +218,8 @@ import 'package:workout_fitness/view/menu/menu_view.dart';
 
 class MyRoutines extends StatefulWidget {
   final Function(List<String>) onAddWorkouts;
-  MyRoutines({required this.onAddWorkouts});
+  final String userId;
+  MyRoutines({required this.onAddWorkouts, required this.userId});
 
   @override
   State<MyRoutines> createState() => _MyRoutinesState();
@@ -237,6 +238,7 @@ class _MyRoutinesState extends State<MyRoutines> {
 
   @override
   Widget build(BuildContext context) {
+    var userId = widget.userId;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white38,
@@ -246,7 +248,9 @@ class _MyRoutinesState extends State<MyRoutines> {
               onPressed: () async {
                 Navigator.of(context)
                     .pushReplacement(MaterialPageRoute(builder: (context) {
-                  return MenuView();
+                  return MenuView(
+                    userId: userId,
+                  );
                 }));
               },
               icon: Icon(Icons.person),
