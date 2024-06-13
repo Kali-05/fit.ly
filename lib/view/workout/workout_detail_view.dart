@@ -26,25 +26,25 @@ class _WorkoutDetailViewState extends State<WorkoutDetailView> {
   ];
 
   List responseArr = [{
-    "name":"Mikhail Eduardovich",
+    "name":"Alan",
     "time":"09 days ago",
     "image":"assets/img/u2.png",
-    "message":"Lorem ipsum dolor sit amet, conse ctetur adipiscing elit,"
+    "message":"..."
   }, {
-    "name":"Mikhail Eduardovich",
+    "name":"Mehrin",
     "time":"11 days ago",
     "image":"assets/img/u1.png",
-    "message":"Lorem ipsum dolor sit amet, conse ctetur adipiscing elit,"
+    "message":"...."
   },{
-    "name":"Mikhail Eduardovich",
+    "name":"Goutham",
     "time":"12 days ago",
     "image":"assets/img/u2.png",
-    "message":"Lorem ipsum dolor sit amet, conse ctetur adipiscing elit,"
+    "message":"...."
   },{
-    "name":"Mikhail Eduardovich",
+    "name":"Kalidas",
     "time":"13 days ago",
     "image":"assets/img/u1.png",
-    "message":"Lorem ipsum dolor sit amet, conse ctetur adipiscing elit,"
+    "message":"...."
   }];
 
   @override
