@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_fitness/models/user.dart';
 import 'package:workout_fitness/services/auth.dart';
-import 'package:workout_fitness/view/home/home_view.dart';
-import 'package:workout_fitness/view/login/on_boarding_view.dart';
-import 'package:provider/provider.dart';
-import 'package:workout_fitness/view/login/step3_view.dart';
-import 'package:workout_fitness/view/login_page/login_page.dart';
-import 'package:workout_fitness/view/menu/menu_view.dart';
-import 'package:workout_fitness/view/signup.dart';
+
 import 'package:firebase_core/firebase_core.dart';
-import 'package:workout_fitness/view/splash_screen.dart';
+import 'package:workout_fitness/view/gemini/consts.dart';
+
 import 'package:workout_fitness/wrapper/wrapper.dart';
 
 import 'common/color_extension.dart';
@@ -27,6 +23,7 @@ void main() async {
       //     messagingSenderId: "XXX",
       //     projectId: "fit-ly")
       );
+  Gemini.init(apiKey: gemini_Api_Key);
   runApp(const MyApp());
 }
 

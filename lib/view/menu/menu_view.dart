@@ -11,6 +11,7 @@ import 'package:workout_fitness/view/home/home_view.dart';
 
 import 'package:workout_fitness/view/menu/yoga_view.dart';
 import 'package:workout_fitness/view/settings/setting_view.dart';
+import 'package:workout_fitness/view/trainingstatus/trainingstatuspage.dart';
 import 'package:workout_fitness/workoutpage/workoutPage.dart';
 
 import '../../common/color_extension.dart';
@@ -372,11 +373,18 @@ class _MenuViewState extends State<MenuView> {
                   case "3":
                     Scaffold.of(context).openDrawer();
                     break;
-                  case "5":
+                  case "4":
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MealPlanView2()));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            TrainingStatusPage(userId: userId),
+                      ),
+                    );
+                    break;
+                  case "5":
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => NourishNavi()));
                     break;
                   case "6":
                     Navigator.push(
