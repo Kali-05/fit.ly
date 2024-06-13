@@ -22,8 +22,8 @@ class _NourishNaviState extends State<NourishNavi> {
   );
   ChatUser geminiUser = ChatUser(
     id: "1",
-    firstName: "Nourish Navi",
-    profileImage: "assets/images/NourishNavy.png",
+    firstName: "MyDoctorMeal ",
+    // profileImage: "assets/images/NourishNavy.png",
   );
   @override
   Widget build(BuildContext context) {
