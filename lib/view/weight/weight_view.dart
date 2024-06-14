@@ -1,5 +1,11 @@
+import 'dart:collection';
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:workout_fitness/view/weight/check_progress.dart';
 
 import '../../common/color_extension.dart';
@@ -22,6 +28,7 @@ class _WeightViewState extends State<WeightView> {
     }
   ];
 
+ 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.sizeOf(context);
