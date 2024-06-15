@@ -207,7 +207,7 @@ class _HomeViewState extends State<HomeView> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const WorkoutView()));
+                                                const WorkoutView2()));
                                   } else {
                                     Navigator.push(
                                         context,

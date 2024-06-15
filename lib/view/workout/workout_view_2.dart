@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:workout_fitness/view/workout/workout_detail_view.dart';
 
 import '../../common/color_extension.dart';
@@ -13,17 +14,38 @@ class WorkoutView2 extends StatefulWidget {
 
 class _WorkoutView2State extends State<WorkoutView2> {
   List workArr = [
-    {"name": "Push-Up", "image": "assets/img/1.png"},
-    {"name": "Leg extenstion", "image": "assets/img/2.png"},
     {
       "name": "Push-Up",
-      "image": "assets/img/5.png",
+      "image": "assets/img/1.png",
+      "url": "https://youtu.be/-WXc4E-zcao?si=0acLrltTp24HZnlq"
     },
     {
-      "name": "Climber",
+      "name": "Leg extension",
+      "image": "assets/img/2.png",
+      "url": "https://youtu.be/m0FOpMEgero?si=BkuDiPoFL3I4oEms"
+    },
+    {
+      "name": "Bench-Press",
+      "image": "assets/img/5.png",
+      "url": "https://youtu.be/gRVjAtPip0Y?si=e4snoBxLbl_kXPEd"
+    },
+    {
+      "name": "Lat Pull Down",
       "image": "assets/img/3.png",
+      "url": "https://youtu.be/CAwf7n6Luuc?si=yWyx9e6ZNuuHcyDk"
     },
   ];
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch $url')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,59 +75,62 @@ class _WorkoutView2State extends State<WorkoutView2> {
           itemCount: workArr.length,
           itemBuilder: (context, index) {
             var wObj = workArr[index] as Map? ?? {};
-            return Container(
-              decoration: BoxDecoration(color: TColor.white),
-              child: Column(
-                children: [
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Image.asset(
-                        wObj["image"].toString(),
-                        width: media.width,
-                        height: media.width * 0.55,
-                        fit: BoxFit.cover,
-                      ),
-                      Container(
-                        width: media.width,
-                        height: media.width * 0.55,
-                        decoration:
-                            BoxDecoration(color: Colors.black.withOpacity(0.5)),
-                      ),
-                      Image.asset(
-                        "assets/img/play.png",
-                        width: 60,
-                        height: 60,
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            return GestureDetector(
+              onTap: () {
+                _launchURL(wObj["url"]);
+              },
+              child: Container(
+                decoration: BoxDecoration(color: TColor.white),
+                child: Column(
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Text(
-                          wObj["name"],
-                          style: TextStyle(
-                              color: TColor.secondaryText,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700),
+                        Image.asset(
+                          wObj["image"].toString(),
+                          width: media.width,
+                          height: media.width * 0.55,
+                          fit: BoxFit.cover,
                         ),
-                        IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const WorkoutDetailView()));
-                            },
-                            icon: Image.asset("assets/img/more.png",
-                                width: 25, height: 25))
+                        Container(
+                          width: media.width,
+                          height: media.width * 0.55,
+                          decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5)),
+                        ),
+                        Image.asset(
+                          "assets/img/play.png",
+                          width: 60,
+                          height: 60,
+                        ),
                       ],
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            wObj["name"],
+                            style: TextStyle(
+                                color: TColor.secondaryText,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const WorkoutDetailView()));
+                              },
+                              icon: Image.asset("assets/img/more.png",
+                                  width: 25, height: 25))
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }),
@@ -138,8 +163,7 @@ class _WorkoutView2State extends State<WorkoutView2> {
               ),
               InkWell(
                 onTap: () {},
-                child:
-                    Image.asset("assets/img/more.png", width: 25, height: 25),
+                child: Image.asset("assets/img/more.png", width: 25, height: 25),
               ),
             ],
           ),
