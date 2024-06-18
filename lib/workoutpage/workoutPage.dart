@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:workout_fitness/view/exercise/exercise_view_2.dart';
 import 'package:workout_fitness/view/trainingstatus/conformationpage.dart';
-import 'package:workout_fitness/view/trainingstatus/trainingstatuspage.dart';
 
 class MyWorkoutPage extends StatefulWidget {
   final String userId;

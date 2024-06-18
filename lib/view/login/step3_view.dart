@@ -18,8 +18,6 @@ class Step3View extends StatefulWidget {
 }
 
 class _Step3ViewState extends State<Step3View> {
-  //StaringService({required this.uid});
-
   bool isAppleHealth = true;
   DateTime? selectDate;
   String? selectHeight;
@@ -96,7 +94,7 @@ class _Step3ViewState extends State<Step3View> {
                                 height: 8,
                               ),
                               Text(
-                                "Allow access ti fill my parameters",
+                                "Allow access to fill my parameters",
                                 style: TextStyle(
                                     color: TColor.secondaryText, fontSize: 16),
                               ),
@@ -108,7 +106,7 @@ class _Step3ViewState extends State<Step3View> {
                             value: isAppleHealth,
                             onChanged: (newVal) {
                               setState(() {
-                                isAppleHealth = isAppleHealth;
+                                isAppleHealth = newVal;
                               });
                             })
                       ],
@@ -126,21 +124,7 @@ class _Step3ViewState extends State<Step3View> {
                     ),
                     Divider(color: TColor.divider, height: 1),
                     SelectPicker(
-                      allVal: const [
-                        "160 cm",
-                        "161 cm",
-                        "162 cm",
-                        "163 cm",
-                        "164 cm",
-                        "165 cm",
-                        "166 cm",
-                        "167 cm",
-                        "168 cm",
-                        "169 cm",
-                        "170 cm",
-                        "171 cm",
-                        "172 cm"
-                      ],
+                      allVal: List.generate(81, (index) => "${120 + index} cm"),
                       selectVal: selectHeight,
                       title: "Height",
                       didChange: (newVal) {
@@ -151,17 +135,7 @@ class _Step3ViewState extends State<Step3View> {
                     ),
                     Divider(color: TColor.divider, height: 1),
                     SelectPicker(
-                      allVal: const [
-                        "50 kg",
-                        "51 Kg",
-                        "52 kg",
-                        "53 kg",
-                        "54 kg",
-                        "55 kg",
-                        "56 kg",
-                        "57 kg",
-                        "58 kg",
-                      ],
+                      allVal: List.generate(91, (index) => "${30 + index} kg"),
                       selectVal: selectWeight,
                       title: "Weight",
                       didChange: (newVal) {

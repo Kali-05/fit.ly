@@ -6,7 +6,6 @@ import 'package:workout_fitness/models/user.dart';
 import 'package:workout_fitness/view/authenticate/authenticate.dart';
 
 import 'package:workout_fitness/view/menu/menu_view.dart';
-import 'package:workout_fitness/wrapper/wrapper.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

@@ -1,5 +1,15 @@
-
 import 'package:flutter/material.dart';
+
+import 'package:workout_fitness/view/tips/details/abouttraining.dart';
+import 'package:workout_fitness/view/tips/details/appeal_tips.dart';
+import 'package:workout_fitness/view/tips/details/become_stronger.dart';
+import 'package:workout_fitness/view/tips/details/drink_water.dart';
+import 'package:workout_fitness/view/tips/details/how_many_times_to_eat.dart';
+import 'package:workout_fitness/view/tips/details/introducing_meal_plan.dart';
+import 'package:workout_fitness/view/tips/details/shoes_to_training.dart';
+import 'package:workout_fitness/view/tips/details/water_and_food.dart';
+import 'package:workout_fitness/view/tips/details/weightloss.dart';
+
 import 'package:workout_fitness/view/tips/tips_details_view.dart';
 
 import '../../common/color_extension.dart';
@@ -14,7 +24,7 @@ class TipsView extends StatefulWidget {
 
 class _TipsViewState extends State<TipsView> {
   List tipsArr = [
-    {"name": "About Traning"},
+    {"name": "About Training"},
     {"name": "How to weight loss ?"},
     {"name": "Introducing about meal plan "},
     {"name": "Water and Food"},
@@ -53,10 +63,91 @@ class _TipsViewState extends State<TipsView> {
           itemBuilder: (context, index) {
             var tObj = tipsArr[index] as Map? ?? {};
             return TipRow(
-              tObj: tObj ,
+              tObj: tObj,
               isActive: index == 0,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TipsDetailView(tObj: tObj,) ));
+                switch (index) {
+                  case 0:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AboutTrainingView(),
+                      ),
+                    );
+                    break;
+                  case 1:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HowToWeightLossView(),
+                      ),
+                    );
+                    break;
+                  case 2:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const IntroducingMealPlanView(),
+                      ),
+                    );
+                    break;
+                  case 3:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WaterAndFoodView(),
+                      ),
+                    );
+                    break;
+                  case 4:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const DrinkWaterView(),
+                      ),
+                    );
+                    break;
+                  case 5:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HowManyTimesToEatView(),
+                      ),
+                    );
+                    break;
+                  case 6:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BecomeStrongerView(),
+                      ),
+                    );
+                    break;
+                  case 7:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ShoesToTrainingView(),
+                      ),
+                    );
+                    break;
+                  case 8:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AppealTipsView(),
+                      ),
+                    );
+                    break;
+                  default:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TipsDetailView(tObj: tObj),
+                      ),
+                    );
+                    break;
+                }
               },
             );
           },

@@ -14,25 +14,25 @@ class WorkoutView extends StatefulWidget {
 class _WorkoutViewState extends State<WorkoutView> {
   List workArr = [
     {
-      "name": "Climber",
+      "name": "Squats",
       "image": "assets/img/1.png",
       "title": "workout",
       "subtitle": "Personalized workouts will help\nyou gain strength"
     },
     {
-      "name": "Climber",
+      "name": "Bicep Curls",
       "image": "assets/img/2.png",
       "title": "workout",
       "subtitle": "Personalized workouts will help\nyou gain strength"
     },
     {
-      "name": "Climber",
+      "name": "Cardio",
       "image": "assets/img/5.png",
       "title": "workout",
       "subtitle": "Personalized workouts will help\nyou gain strength"
     },
     {
-      "name": "Climber",
+      "name": "Hammer Curls",
       "image": "assets/img/3.png",
       "title": "workout",
       "subtitle": "Personalized workouts will help\nyou gain strength"

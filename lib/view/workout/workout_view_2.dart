@@ -3,7 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:workout_fitness/view/workout/workout_detail_view.dart';
 
 import '../../common/color_extension.dart';
-import '../../common_widget/round_button.dart';
 
 class WorkoutView2 extends StatefulWidget {
   const WorkoutView2({super.key});
@@ -106,7 +105,8 @@ class _WorkoutView2State extends State<WorkoutView2> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -122,7 +122,8 @@ class _WorkoutView2State extends State<WorkoutView2> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const WorkoutDetailView()));
+                                        builder: (context) =>
+                                            const WorkoutDetailView()));
                               },
                               icon: Image.asset("assets/img/more.png",
                                   width: 25, height: 25))
@@ -163,7 +164,8 @@ class _WorkoutView2State extends State<WorkoutView2> {
               ),
               InkWell(
                 onTap: () {},
-                child: Image.asset("assets/img/more.png", width: 25, height: 25),
+                child:
+                    Image.asset("assets/img/more.png", width: 25, height: 25),
               ),
             ],
           ),

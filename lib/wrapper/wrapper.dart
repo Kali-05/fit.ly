@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_fitness/models/user.dart';
 import 'package:workout_fitness/view/authenticate/authenticate.dart';
-import 'package:workout_fitness/view/login/on_boarding_view.dart';
-import 'package:workout_fitness/view/login_page/login_page.dart';
+
 import 'package:workout_fitness/view/menu/menu_view.dart';
 
 class Wrapper extends StatelessWidget {

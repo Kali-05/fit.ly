@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:workout_fitness/services/auth.dart';
 import 'package:workout_fitness/view/login/on_boarding_view.dart';
-// import 'package:workout_fitness/view/login/login_screen.dart';
-import 'package:workout_fitness/view/login_page/login_page.dart';
-import 'package:workout_fitness/view/menu/menu_view.dart';
 
 class SignupScreen extends StatefulWidget {
   final Function? toggleView;
