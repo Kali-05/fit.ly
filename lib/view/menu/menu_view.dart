@@ -315,7 +315,7 @@ class _MenuViewState extends State<MenuView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text("Code For Any",
+                              Text("Fit.ly",
                                   style: TextStyle(
                                       fontSize: 20,
                                       color: TColor.white,
@@ -323,7 +323,7 @@ class _MenuViewState extends State<MenuView> {
                               const SizedBox(
                                 height: 4,
                               ),
-                              Text("Profile",
+                              Text("The Gym Tracker",
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: TColor.white,
