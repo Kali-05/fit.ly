@@ -35,13 +35,17 @@ dependencies:
   dash_chat_2: ^0.0.20
   firebase_auth: ^4.19.4
   firebase_core: ^2.30.1
+  firebase_storage: 11.7.7
   flutter:
     sdk: flutter
   flutter_calendar_carousel: ^2.4.2
   flutter_gemini: ^2.0.4
+  flutter_local_notifications: ^17.1.2
   flutter_rating_bar: ^4.0.1
   flutter_timezone: ^1.0.6
+  image_picker: ^0.8.4+4
   intl: ^0.18.1
+  path_provider: ^2.0.11
   provider: ^6.1.2
   shared_preferences: ^2.2.3
   simple_circular_progress_bar: ^1.0.2
