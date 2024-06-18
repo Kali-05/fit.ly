@@ -290,6 +290,70 @@ class _MyRoutinesState extends State<MyRoutines> {
                         },
                       ),
                       Divider(),
+                      Divider(),
+                      GestureDetector(
+                        child: customContainer(
+                          backgroundColor:
+                              selectedExercises.contains('Chest Dip')
+                                  ? const Color.fromARGB(255, 127, 127, 127)
+                                  : Colors.white,
+                          title: 'Chest Dip',
+                          subTitle: 'chest',
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (selectedExercises.contains('Chest Dip')) {
+                              selectedExercises.remove('Chest Dip');
+                            } else {
+                              selectedExercises.add('Chest Dip');
+                            }
+                          });
+                        },
+                      ),
+                      Divider(),
+                      Divider(),
+                      GestureDetector(
+                        child: customContainer(
+                          backgroundColor:
+                              selectedExercises.contains('Chest Fly')
+                                  ? const Color.fromARGB(255, 127, 127, 127)
+                                  : Colors.white,
+                          title: 'Chest Fly',
+                          subTitle: 'chest',
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (selectedExercises.contains('Chest Fly')) {
+                              selectedExercises.remove('Chest Fly');
+                            } else {
+                              selectedExercises.add('Chest Fly');
+                            }
+                          });
+                        },
+                      ),
+                      Divider(),
+                      Divider(),
+                      GestureDetector(
+                        child: customContainer(
+                          backgroundColor:
+                              selectedExercises.contains('Chest Press')
+                                  ? const Color.fromARGB(255, 127, 127, 127)
+                                  : Colors.white,
+                          title: 'Chest Press',
+                          subTitle: 'chest',
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (selectedExercises.contains('Chest Press')) {
+                              selectedExercises.remove('Chest Press');
+                            } else {
+                              selectedExercises.add('Chest Press');
+                            }
+                          });
+                        },
+                      ),
+                      Divider(),
+                      Divider(),
                       GestureDetector(
                         child: customContainer(
                           backgroundColor:
@@ -309,6 +373,71 @@ class _MyRoutinesState extends State<MyRoutines> {
                           });
                         },
                       ),
+                      GestureDetector(
+                        child: customContainer(
+                          backgroundColor:
+                              selectedExercises.contains('Dumbel Curl')
+                                  ? const Color.fromARGB(255, 127, 127, 127)
+                                  : Colors.white,
+                          title: 'Dumbel Curl',
+                          subTitle: 'arms',
+                        ),
+                        onTap: () {
+                          setState(() {
+                            // Toggle selection
+                            if (selectedExercises.contains('Dumbel Curl')) {
+                              selectedExercises.remove('Dumbel Curl');
+                            } else {
+                              selectedExercises.add('Dumbel Curl');
+                            }
+                          });
+                        },
+                      ),
+                      Divider(),
+                      Divider(),
+                      GestureDetector(
+                        child: customContainer(
+                          backgroundColor:
+                              selectedExercises.contains('Face Pull')
+                                  ? const Color.fromARGB(255, 127, 127, 127)
+                                  : Colors.white,
+                          title: 'Face Pull',
+                          subTitle: 'Shoulder',
+                        ),
+                        onTap: () {
+                          setState(() {
+                            // Toggle selection
+                            if (selectedExercises.contains('Face Pull')) {
+                              selectedExercises.remove('Face Pull');
+                            } else {
+                              selectedExercises.add('Face Pull');
+                            }
+                          });
+                        },
+                      ),
+                      Divider(),
+                      Divider(),
+                      GestureDetector(
+                        child: customContainer(
+                          backgroundColor:
+                              selectedExercises.contains('Bent Over Row ')
+                                  ? const Color.fromARGB(255, 127, 127, 127)
+                                  : Colors.white,
+                          title: 'Bent Over Row ',
+                          subTitle: 'Upper Back',
+                        ),
+                        onTap: () {
+                          setState(() {
+                            // Toggle selection
+                            if (selectedExercises.contains('Bent Over Row ')) {
+                              selectedExercises.remove('Bent Over Row ');
+                            } else {
+                              selectedExercises.add('Face Pull');
+                            }
+                          });
+                        },
+                      ),
+                      Divider(),
                       Divider(),
                     ],
                   ),
@@ -343,34 +472,38 @@ class _MyRoutinesState extends State<MyRoutines> {
     );
   }
 
-  Widget customContainer({
-    required Color backgroundColor,
-    required String title,
-    required String subTitle,
-  }) {
-    return Container(
-      width: double.infinity,
-      height: 90,
-      decoration: BoxDecoration(color: backgroundColor),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style: TextStyle(fontSize: 20), // Customize your text style here
-            ),
+Widget customContainer({
+  required Color backgroundColor,
+  required String title,
+  required String subTitle,
+}) {
+  return Container(
+    width: double.infinity,
+    height: 90,
+    decoration: BoxDecoration(color: backgroundColor),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 20), // Customize your text style here
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              subTitle,
-              style: TextStyle(fontSize: 16), // Customize your text style here
-            ),
-          )
-        ],
-      ),
-    );
-  }
+        ),
+        Spacer(),
+        
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            subTitle,
+            style: TextStyle(fontSize: 16), // Customize your text style here
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+
 }
