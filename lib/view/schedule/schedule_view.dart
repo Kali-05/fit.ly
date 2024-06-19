@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import '../../common/color_extension.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ScheduleView extends StatefulWidget {
   const ScheduleView({super.key});
@@ -13,22 +15,113 @@ class ScheduleView extends StatefulWidget {
 class _ScheduleViewState extends State<ScheduleView> {
   DateTime nowTime = DateTime.now();
   DateTime targetDate = DateTime.now();
-  List dateArr = [
-    DateTime(2023, 7, 2),
-    DateTime(2023, 7, 14),
-  ];
-  List notArr = [
-    {
-      "day": "2",
-      "detail":
-          " You exercise 40 minutes a day and five days a week at a certain time, you practice on a regular schedule. Changing the schedule will result in diminished results, resulting in fatigue."
-    },
-    {
-      "day": "14",
-      "detail":
-          "Tips for weight loss work towards functional exercises, proven strength and balance, and reduced risk of injury when muscle groups are active at the same time."
-    },
-  ];
+  DateTime selectedDate = DateTime.now();
+  List<Map<String, String>> notes = [];
+  List<Map<String, dynamic>> workouts = [];
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchNotes();
+    fetchWorkouts();
+  }
+
+  Future<void> fetchNotes() async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> docSnapshot =
+          await FirebaseFirestore.instance
+              .collection('fitlys')
+              .doc(userId)
+              .collection('notes')
+              .doc(DateFormat('yyyy-MM-dd').format(selectedDate))
+              .get();
+
+      if (docSnapshot.exists) {
+        Map<String, dynamic>? data = docSnapshot.data();
+        setState(() {
+          notes = data != null
+              ? List<Map<String, String>>.from((data['notes'] as List)
+                  .map((item) => Map<String, String>.from(item)))
+              : [];
+        });
+      } else {
+        setState(() {
+          notes = [];
+        });
+      }
+    } catch (e) {
+      print('Error fetching notes: $e');
+    }
+  }
+
+  Future<void> fetchWorkouts() async {
+    try {
+      String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+      DocumentSnapshot<Map<String, dynamic>> docSnapshot =
+          await FirebaseFirestore.instance
+              .collection('fitlys')
+              .doc(userId)
+              .collection('workouts')
+              .doc(formattedDate)
+              .get();
+
+      if (docSnapshot.exists) {
+        Map<String, dynamic>? data = docSnapshot.data();
+        setState(() {
+          workouts = data != null
+              ? List<Map<String, dynamic>>.from(data['workouts'])
+              : [];
+        });
+      } else {
+        setState(() {
+          workouts = [];
+        });
+      }
+    } catch (e) {
+      print('Error fetching workouts: $e');
+    }
+  }
+
+  Future<void> addNote() async {
+    TextEditingController noteController = TextEditingController();
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Add Note'),
+        content: TextField(
+          controller: noteController,
+          decoration: InputDecoration(hintText: 'Enter your note here'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              if (noteController.text.isNotEmpty) {
+                String formattedDate =
+                    DateFormat('yyyy-MM-dd').format(selectedDate);
+                await FirebaseFirestore.instance
+                    .collection('fitlys')
+                    .doc(userId)
+                    .collection('notes')
+                    .doc(formattedDate)
+                    .set({
+                  'notes': FieldValue.arrayUnion([
+                    {
+                      'note': noteController.text,
+                      'timestamp': DateTime.now().toString()
+                    }
+                  ])
+                }, SetOptions(merge: true));
+                fetchNotes();
+              }
+              Navigator.of(context).pop();
+            },
+            child: Text('Add'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +183,8 @@ class _ScheduleViewState extends State<ScheduleView> {
                         setState(() {
                           targetDate =
                               DateTime(targetDate.year, targetDate.month - 1);
+                          fetchNotes();
+                          fetchWorkouts();
                         });
                       },
                       icon: Image.asset(
@@ -104,6 +199,8 @@ class _ScheduleViewState extends State<ScheduleView> {
                         setState(() {
                           targetDate =
                               DateTime(targetDate.year, targetDate.month + 1);
+                          fetchNotes();
+                          fetchWorkouts();
                         });
                       },
                       icon: Image.asset(
@@ -120,12 +217,16 @@ class _ScheduleViewState extends State<ScheduleView> {
               child: Stack(
                 children: [
                   CalendarCarousel(
-                    todayButtonColor: TColor.primary,
-                    todayBorderColor: TColor.primary,
-                    selectedDayButtonColor: TColor.primary,
-                    selectedDayBorderColor: TColor.primary,
+                    todayButtonColor: Colors.blue,
+                    todayBorderColor: Colors.blue,
+                    selectedDayButtonColor: Colors.black.withOpacity(0.5),
+                    selectedDayBorderColor: Colors.black.withOpacity(0.5),
                     onDayPressed: (DateTime date, List events) {
-                      // this.setState(() => nowTime = date);
+                      setState(() {
+                        selectedDate = date;
+                        fetchNotes();
+                        fetchWorkouts();
+                      });
                     },
                     onCalendarChanged: (date) {
                       setState(() {
@@ -141,14 +242,12 @@ class _ScheduleViewState extends State<ScheduleView> {
                         fontSize: 16,
                         fontWeight: FontWeight.w700),
                     weekDayFormat: WeekdayFormat.narrow,
-                    weekdayTextStyle:  TextStyle(
-                        color: TColor.gray,
-                        fontSize: 20),
+                    weekdayTextStyle:
+                        TextStyle(color: TColor.gray, fontSize: 20),
                     weekendTextStyle: TextStyle(
                         color: TColor.primaryText,
                         fontSize: 16,
                         fontWeight: FontWeight.w700),
-                   
                     thisMonthDayBorderColor: Colors.transparent,
                     showHeader: false,
                     customDayBuilder: (
@@ -163,14 +262,8 @@ class _ScheduleViewState extends State<ScheduleView> {
                       bool isThisMonthDay,
                       DateTime day,
                     ) {
-                      var selectObj = dateArr.firstWhere(
-                          (eDate) =>
-                              day.day == eDate.day &&
-                              day.month == eDate.month &&
-                              day.year == eDate.year,
-                          orElse: () => null);
-
-                      if (selectObj != null) {
+                      // Highlight the current date with a blue circle
+                      if (isToday) {
                         return Container(
                           width: 35,
                           height: 35,
@@ -188,123 +281,145 @@ class _ScheduleViewState extends State<ScheduleView> {
                           ),
                         );
                       }
-                      // dateArr
-
-                      // if (day.day == 15) {
-                      //   return Center(
-                      //     child: Icon(Icons.local_airport),
-                      //   );
-                      // } else {
-                      //   return null;
-                      // }
-                    },
-                    weekFormat: false,
-
-                    height: 340.0,
-                    selectedDateTime: nowTime,
-                    targetDateTime: targetDate,
-                    daysHaveCircularBorder: true,
-
-                    /// null for not rendering any border, true for circular border, false for rectangular border
-                  ),
-
-                 const Padding(
-                   padding:  EdgeInsets.only(top: 33),
-                   child:  Divider(color:  Colors.black26, height: 1, ),
-                 )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-              child: Text(
-                "Note",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: TColor.secondaryText,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700),
-              ),
-            ),
-            ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                shrinkWrap: true,
-                itemCount: notArr.length,
-                itemBuilder: (context, index) {
-                  var iObj = notArr[index] as Map? ?? {};
-
-                  return Container(
-                    padding: const EdgeInsets.only(bottom: 15, left: 8),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
+                      // Highlight the selected date with a black transparent circle
+                      if (isSelectedDay) {
+                        return Container(
                           width: 35,
                           height: 35,
                           decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: Colors.black.withOpacity(0.5),
                               borderRadius: BorderRadius.circular(20)),
                           alignment: Alignment.center,
                           child: Text(
-                            iObj["day"],
+                            day.day.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: TColor.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                            child: Text(
-                          iObj["detail"],
-                          style: TextStyle(
-                              color: TColor.secondaryText, fontSize: 16),
-                        ))
-                      ],
+                        );
+                      }
+                      return null;
+                    },
+                    weekFormat: false,
+                    height: 340.0,
+                    selectedDateTime: selectedDate,
+                    targetDateTime: targetDate,
+                    daysHaveCircularBorder: true,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 33),
+                    child: Divider(
+                      color: Colors.black26,
+                      height: 1,
                     ),
-                  );
-                })
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 1,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              InkWell(
-                onTap: () {},
-                child: Image.asset("assets/img/menu_running.png",
-                    width: 25, height: 25),
+                  )
+                ],
               ),
-              InkWell(
-                onTap: () {},
-                child: Image.asset("assets/img/menu_meal_plan.png",
-                    width: 25, height: 25),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Notes",
+                    style: TextStyle(
+                        color: TColor.primaryText,
+                        fontSize: 35,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  GestureDetector(
+                    onTap: addNote,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.grey),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  )
+                ],
               ),
-              InkWell(
-                onTap: () {},
-                child: Image.asset("assets/img/menu_home.png",
-                    width: 25, height: 25),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Image.asset("assets/img/menu_weight.png",
-                    width: 25, height: 25),
-              ),
-              InkWell(
-                onTap: () {},
-                child:
-                    Image.asset("assets/img/more.png", width: 25, height: 25),
+            ),
+            if (notes.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: notes.map((note) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.grey,
+                      ),
+                      child: Text(
+                        note['note']!,
+                        style: TextStyle(
+                          color: TColor.primaryText,
+                          fontSize: 16,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
             ],
-          ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+              child: Text(
+                'Workouts',
+                style: TextStyle(
+                    color: TColor.primaryText,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+            if (workouts.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: workouts.map((workout) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.grey,
+                      ),
+                      child: Text(
+                        workout[
+                            'title'], // Adjust based on your workout data structure
+                        style: TextStyle(
+                          color: TColor.primaryText,
+                          fontSize: 16,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+            if (notes.isEmpty && workouts.isEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'No notes or workouts for this day.',
+                  style: TextStyle(
+                    color: TColor.primaryText,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );

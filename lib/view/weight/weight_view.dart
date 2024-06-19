@@ -6,12 +6,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:workout_fitness/main.dart';
 import 'package:workout_fitness/view/weight/check_progress.dart';
 import '../../common/color_extension.dart';
 import '../../common_widget/border_button.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class WeightView extends StatefulWidget {
   const WeightView({Key? key}) : super(key: key);
@@ -20,11 +20,14 @@ class WeightView extends StatefulWidget {
   State<WeightView> createState() => _WeightViewState();
 }
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 class _WeightViewState extends State<WeightView> {
   List<Map<String, String>> myWeightArr = [
-    {"name": "Sunday, AUG 19", "image": "assets/img/4_p.png"},
-    {"name": "Sunday, AUG 26", "image": "assets/img/4_p.png"},
-    {"name": "Sunday, AUG 26", "image": "assets/img/4_p.png"},
+    {"name": "Sunday, AUG 19", "image": ""},
+    {"name": "Sunday, AUG 26", "image": ""},
+    {"name": "Sunday, AUG 26", "image": ""},
   ];
 
   String userId = '';
@@ -244,12 +247,32 @@ class _WeightViewState extends State<WeightView> {
                             child: Column(
                               children: [
                                 Expanded(
-                                  child: Image.file(
-                                    File(dObj["image"].toString()),
-                                    width: double.maxFinite,
-                                    height: double.maxFinite,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: dObj["image"]!.isEmpty
+                                      ? Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.add,
+                                              color: TColor.primary,
+                                              size: 50,
+                                            ),
+                                            Text(
+                                              "Add your image",
+                                              style: TextStyle(
+                                                color: TColor.primary,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Image.file(
+                                          File(dObj["image"].toString()),
+                                          width: double.maxFinite,
+                                          height: double.maxFinite,
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
