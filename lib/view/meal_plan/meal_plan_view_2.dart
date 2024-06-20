@@ -148,7 +148,7 @@ class _NourishNaviState extends State<NourishNavi> {
         backgroundColor: Colors.blue,
         centerTitle: true,
         title: const Text(
-          "Diet Plan",
+          "Chat With The Doctor",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
