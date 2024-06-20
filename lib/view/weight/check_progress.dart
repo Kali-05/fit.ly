@@ -8,7 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../common/color_extension.dart';
 import '../../services/database.dart';
+import 'bmiresult.dart';
 
+double? bmi;
 class CheckProgress extends StatefulWidget {
   const CheckProgress({Key? key}) : super(key: key);
 
@@ -27,13 +29,8 @@ class _CheckProgressState extends State<CheckProgress> {
   bool checkBMI = false;
   String userId = ''; // Provide user ID here
   Gemini gemini = Gemini.instance;
-  // Future<String?> _getBMIAnalysis(double height, double weight, int age) async {
-  //   final prompt =
-  //       "You are an expert nutritionist & dietitian; Get a detailed analysis of the height, weight and the BMI given below. Height = $height, Weight = $weight, BMI = ${(weight / (height * height))}, Age = $age";
-  //   final response = await gemini.text(prompt);
-  //   print(response);
-  //   return response!.content!.parts!.last.text;
-  // }
+  // Variable to store the BMI value
+
   Future<String?> _getBMIAnalysis(double height, double weight, int age) async {
     final prompt =
         "You are an expert nutritionist & dietitian; Get a detailed analysis of the height, weight and the BMI given below. Height = $height, Weight = $weight, BMI = ${(weight / (height * height))}, Age = $age";
@@ -87,12 +84,12 @@ class _CheckProgressState extends State<CheckProgress> {
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              TextField(
                 controller: _weightController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -100,10 +97,8 @@ class _CheckProgressState extends State<CheckProgress> {
                   border: OutlineInputBorder(),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
+              SizedBox(height: 8.0),
+              TextField(
                 controller: _heightEditingController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -111,10 +106,8 @@ class _CheckProgressState extends State<CheckProgress> {
                   border: OutlineInputBorder(),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
+              SizedBox(height: 8.0),
+              TextField(
                 controller: _ageEditingController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -122,10 +115,8 @@ class _CheckProgressState extends State<CheckProgress> {
                   border: OutlineInputBorder(),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
+              SizedBox(height: 8.0),
+              TextField(
                 controller: _dateController,
                 decoration: InputDecoration(
                   labelText: 'Enter the Date (yyyy-mm-dd)',
@@ -146,10 +137,8 @@ class _CheckProgressState extends State<CheckProgress> {
                   }
                 },
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
+              SizedBox(height: 8.0),
+              GestureDetector(
                 onTap: () async {
                   print(_weightController.text);
                   print(_heightEditingController.text);
@@ -173,10 +162,25 @@ class _CheckProgressState extends State<CheckProgress> {
                     weight!.toString(),
                     gender ?? false, // or false, depending on the gender
                   );
+
+                  // Calculate BMI and store it in the variable
+                  bmi = weight! / (height! * height!);
+
                   bmiAnalysis = await _getBMIAnalysis(height!, weight!, age!);
                   setState(() {
                     checkBMI = true;
                   });
+
+                  // Navigate to the new screen to display BMI
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BmiResultScreen(
+                        bmi: bmi!,
+                        bmiAnalysis: bmiAnalysis!,
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   decoration: BoxDecoration(color: TColor.primary),
@@ -194,21 +198,8 @@ class _CheckProgressState extends State<CheckProgress> {
                   ),
                 ),
               ),
-            ),
-            Expanded(
-              child: checkBMI
-                  ? Column(
-                      children: [
-                        Text("Your BMI is ${weight! / (height! * height!)}"),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SingleChildScrollView(child: Text(bmiAnalysis!)),
-                      ],
-                    )
-                  : Container(),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
