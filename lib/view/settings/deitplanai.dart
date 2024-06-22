@@ -20,7 +20,28 @@ class _DietplanaiState extends State<Dietplanai> {
 
   Future<void> _fetchDietPlan() async {
     final Gemini gemini = Gemini.instance;
-    final prompt = "Generate a good diet plan for a person with a BMI of $bmi.";
+    final prompt = """
+      You are a nutrition expert. Generate a comprehensive diet plan for a person with a BMI of $bmi.
+      The diet plan should include specific meals for the following:
+      - Morning (breakfast)
+      - Afternoon (lunch)
+      - Evening (dinner)
+      
+      Please provide healthy, balanced meal options that include a variety of nutrients. The meals should be easy to prepare and include ingredients that are commonly available. 
+      
+      Example format:
+      Morning:
+      - Option 1: [Description of meal]
+      - Option 2: [Description of meal]
+      
+      Afternoon:
+      - Option 1: [Description of meal]
+      - Option 2: [Description of meal]
+      
+      Evening:
+      - Option 1: [Description of meal]
+      - Option 2: [Description of meal]
+    """;
     final response = await gemini.text(prompt);
 
     if (response != null &&
